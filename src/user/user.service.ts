@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compare } from 'bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 import { Repository } from 'typeorm';
 import { LoginResultDto } from './dto/login-result.dto';
 import { LoginDto } from './dto/login.dto';
@@ -11,6 +12,8 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    private authService: AuthService,
   ) {}
 
   async login(loginDto: LoginDto): Promise<LoginResultDto> {
@@ -30,8 +33,10 @@ export class UserService {
       throw new UnauthorizedException();
     }
 
+    const userToken = this.authService.sign(checkedUser.id.toString());
+
     return {
-      token: '',
+      token: userToken,
       email: checkedUser.email,
       name: checkedUser.name,
     };
