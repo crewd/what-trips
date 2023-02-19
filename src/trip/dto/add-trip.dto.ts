@@ -1,6 +1,6 @@
 import { IsDate, IsString } from 'class-validator';
 
-export class AddTrip {
+export class AddTripDto {
   /**
    * 생성할 여행의 이름
    * @example '제주도 여행'

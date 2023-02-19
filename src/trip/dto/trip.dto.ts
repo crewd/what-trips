@@ -1,7 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
-export class TripListDto {
+export class TripDto {
   @Expose()
   id: number;
 

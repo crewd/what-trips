@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
-import { TripListDto } from './dto/trips-list.dto';
+import { AddTripDto } from './dto/add-trip.dto';
+import { TripDto } from './dto/trip.dto';
 import { Trip } from './trip.entity';
 
 @Injectable()
@@ -16,9 +17,27 @@ export class TripService {
     private userRepository: Repository<User>,
   ) {}
 
-  async getList(userId: number): Promise<TripListDto[]> {
+  async getList(userId: number): Promise<TripDto[]> {
     const trips = await this.tripRepository.find({ userId: userId });
-    const tripList = plainToInstance(TripListDto, trips);
+    const tripList = plainToInstance(TripDto, trips);
     return tripList;
+  }
+
+  async addTrip(addTripData: AddTripDto, userId: number): Promise<TripDto> {
+    const user = await this.userRepository.findOne({ id: userId });
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    const trip = new Trip();
+    trip.title = addTripData.title;
+    trip.userId = userId;
+    trip.startTime = addTripData.startTime;
+    trip.endTime = addTripData.endTime;
+
+    await this.tripRepository.save(trip);
+
+    const tripData = plainToInstance(TripDto, trip);
+
+    return tripData;
   }
 }
