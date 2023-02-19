@@ -16,8 +16,8 @@ export class TripService {
     private userRepository: Repository<User>,
   ) {}
 
-  async getList(): Promise<TripListDto[]> {
-    const trips = await this.tripRepository.find();
+  async getList(userId: number): Promise<TripListDto[]> {
+    const trips = await this.tripRepository.find({ userId: userId });
     const tripList = plainToInstance(TripListDto, trips);
     return tripList;
   }
