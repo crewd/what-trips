@@ -1,4 +1,11 @@
-import { Body, Controller, Get, ParseIntPipe, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Post,
+  Param,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/user/user.decorator';
 import { AddTripDto } from './dto/add-trip.dto';
@@ -9,7 +16,7 @@ import { TripService } from './trip.service';
 export class TripController {
   constructor(private tripService: TripService) {}
 
-  @Get()
+  @Get('list')
   @ApiBearerAuth()
   @ApiOperation({
     summary: '여행 목록 조회',
@@ -19,7 +26,7 @@ export class TripController {
     return this.tripService.getList(userId);
   }
 
-  @Post()
+  @Post('add')
   @ApiBearerAuth()
   @ApiOperation({
     summary: '여행 추가',
@@ -30,5 +37,18 @@ export class TripController {
     @Body() addTripDto: AddTripDto,
   ) {
     return this.tripService.addTrip(addTripDto, userId);
+  }
+
+  @Get(':tripId/plan')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: '여행 상세',
+    description: '여행 상세 API',
+  })
+  detailTrip(
+    @User('userId', ParseIntPipe) userId: number,
+    @Param('tripId', ParseIntPipe) tripId: number,
+  ) {
+    return this.tripService.detailTrip(tripId, userId);
   }
 }

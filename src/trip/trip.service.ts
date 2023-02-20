@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
 import { User } from 'src/user/user.entity';
@@ -35,6 +39,21 @@ export class TripService {
     trip.endTime = addTripData.endTime;
 
     await this.tripRepository.save(trip);
+
+    const tripData = plainToInstance(TripDto, trip);
+
+    return tripData;
+  }
+
+  async detailTrip(tripId: number, userId: number): Promise<TripDto> {
+    const trip = await this.tripRepository.findOne({
+      id: tripId,
+      userId: userId,
+    });
+
+    if (!trip) {
+      throw new NotFoundException();
+    }
 
     const tripData = plainToInstance(TripDto, trip);
 
