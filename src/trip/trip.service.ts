@@ -46,9 +46,7 @@ export class TripService {
   }
 
   async detailTrip(tripId: number, userId: number): Promise<TripDto> {
-    const trip = await this.tripRepository.findOne({
-      id: tripId,
-    });
+    const trip = await this.tripRepository.findOne({ id: tripId });
 
     if (trip.userId !== userId) {
       throw new UnauthorizedException();
@@ -61,5 +59,17 @@ export class TripService {
     const tripData = plainToInstance(TripDto, trip);
 
     return tripData;
+  }
+
+  async deleteTrip(tripId: number, userId: number): Promise<void> {
+    const trip = await this.tripRepository.findOne({ id: tripId });
+    if (!trip) {
+      throw new NotFoundException();
+    }
+
+    if (trip.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+    await this.tripRepository.delete({ id: tripId });
   }
 }

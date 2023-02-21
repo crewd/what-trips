@@ -5,8 +5,16 @@ import {
   ParseIntPipe,
   Post,
   Param,
+  Delete,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { User } from 'src/user/user.decorator';
 import { AddTripDto } from './dto/add-trip.dto';
 import { TripService } from './trip.service';
@@ -16,6 +24,7 @@ import { TripService } from './trip.service';
 export class TripController {
   constructor(private tripService: TripService) {}
 
+  @UseGuards(AuthGuard)
   @Get('list')
   @ApiBearerAuth()
   @ApiOperation({
@@ -26,6 +35,7 @@ export class TripController {
     return this.tripService.getList(userId);
   }
 
+  @UseGuards(AuthGuard)
   @Post('add')
   @ApiBearerAuth()
   @ApiOperation({
@@ -39,6 +49,7 @@ export class TripController {
     return this.tripService.addTrip(addTripDto, userId);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':tripId/plan')
   @ApiBearerAuth()
   @ApiOperation({
@@ -50,5 +61,22 @@ export class TripController {
     @Param('tripId', ParseIntPipe) tripId: number,
   ) {
     return this.tripService.detailTrip(tripId, userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete(':tripId')
+  @ApiOperation({
+    summary: '게시글 삭제',
+    description: '게시글 삭제 API',
+  })
+  @ApiBearerAuth()
+  @ApiResponse({ status: 400, description: 'BadRequestException' })
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
+  @ApiResponse({ status: 404, description: 'NotFoundException' })
+  deleteTrip(
+    @User('userId', ParseIntPipe) userId: number,
+    @Param('tripId', ParseIntPipe) tripId: number,
+  ) {
+    return this.tripService.deleteTrip(tripId, userId);
   }
 }
