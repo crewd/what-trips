@@ -31,6 +31,7 @@ export class TripController {
     summary: '여행 목록 조회',
     description: '여행 목록 조회 API',
   })
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
   getList(@User('userId', ParseIntPipe) userId: number) {
     return this.tripService.getList(userId);
   }
@@ -42,6 +43,7 @@ export class TripController {
     summary: '여행 추가',
     description: '여행 추가 API',
   })
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
   addTrip(
     @User('userId', ParseIntPipe) userId: number,
     @Body() addTripDto: AddTripDto,
@@ -56,6 +58,8 @@ export class TripController {
     summary: '여행 상세',
     description: '여행 상세 API',
   })
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
+  @ApiResponse({ status: 404, description: 'NotFoundException' })
   detailTrip(
     @User('userId', ParseIntPipe) userId: number,
     @Param('tripId', ParseIntPipe) tripId: number,
@@ -70,7 +74,6 @@ export class TripController {
     description: '게시글 삭제 API',
   })
   @ApiBearerAuth()
-  @ApiResponse({ status: 400, description: 'BadRequestException' })
   @ApiResponse({ status: 401, description: 'UnauthorizedException' })
   @ApiResponse({ status: 404, description: 'NotFoundException' })
   deleteTrip(
