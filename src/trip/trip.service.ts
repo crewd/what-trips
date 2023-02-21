@@ -48,8 +48,11 @@ export class TripService {
   async detailTrip(tripId: number, userId: number): Promise<TripDto> {
     const trip = await this.tripRepository.findOne({
       id: tripId,
-      userId: userId,
     });
+
+    if (trip.userId !== userId) {
+      throw new UnauthorizedException();
+    }
 
     if (!trip) {
       throw new NotFoundException();
