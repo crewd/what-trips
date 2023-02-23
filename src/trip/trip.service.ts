@@ -9,6 +9,7 @@ import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { AddTripDto } from './dto/add-trip.dto';
 import { TripDto } from './dto/trip.dto';
+import { UpdateTripDto } from './dto/update-trip.dto';
 import { Trip } from './trip.entity';
 
 @Injectable()
@@ -55,6 +56,33 @@ export class TripService {
     if (!trip) {
       throw new NotFoundException();
     }
+
+    const tripData = plainToInstance(TripDto, trip);
+
+    return tripData;
+  }
+
+  async updateTrip(
+    tripId: number,
+    updateTripData: UpdateTripDto,
+    userId: number,
+  ): Promise<TripDto> {
+    const trip = await this.tripRepository.findOne({
+      id: tripId,
+    });
+    if (!trip) {
+      throw new NotFoundException();
+    }
+
+    if (trip.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    trip.title = updateTripData.title;
+    trip.startTime = updateTripData.startTime;
+    trip.endTime = updateTripData.endTime;
+
+    await this.tripRepository.save(trip);
 
     const tripData = plainToInstance(TripDto, trip);
 

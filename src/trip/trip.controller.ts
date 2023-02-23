@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -17,6 +18,7 @@ import {
 import { AuthGuard } from 'src/auth/auth.guard';
 import { User } from 'src/user/user.decorator';
 import { AddTripDto } from './dto/add-trip.dto';
+import { UpdateTripDto } from './dto/update-trip.dto';
 import { TripService } from './trip.service';
 
 @ApiTags('Trip API')
@@ -68,10 +70,27 @@ export class TripController {
   }
 
   @UseGuards(AuthGuard)
+  @Patch(':tripId')
+  @ApiOperation({
+    summary: '여행 수정',
+    description: '여행 수정 API',
+  })
+  @ApiBearerAuth()
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
+  @ApiResponse({ status: 404, description: 'NotFoundException' })
+  updateTrip(
+    @User('userId', ParseIntPipe) userId: number,
+    @Param('tripId', ParseIntPipe) tripId: number,
+    @Body() updateTrip: UpdateTripDto,
+  ) {
+    return this.tripService.updateTrip(tripId, updateTrip, userId);
+  }
+
+  @UseGuards(AuthGuard)
   @Delete(':tripId')
   @ApiOperation({
-    summary: '게시글 삭제',
-    description: '게시글 삭제 API',
+    summary: '여행 삭제',
+    description: '여행 삭제 API',
   })
   @ApiBearerAuth()
   @ApiResponse({ status: 401, description: 'UnauthorizedException' })
