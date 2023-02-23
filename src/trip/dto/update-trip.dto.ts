@@ -22,12 +22,4 @@ export class UpdateTripDto {
    */
   @IsDate()
   endTime: Date;
-
-  /**
-   * 수정할 여행의 Id
-   * @example 1
-   */
-  @IsNumber()
-  @Type(() => Number)
-  tripId: number;
 }
