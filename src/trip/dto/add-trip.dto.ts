@@ -1,4 +1,4 @@
-import { IsDate, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class AddTripDto {
   /**
@@ -12,13 +12,13 @@ export class AddTripDto {
    * 여행 시작 날짜
    * @example '2023/02/15'
    */
-  @IsDate()
-  startTime: Date;
+  @IsString()
+  startTime: string;
 
   /**
    * 여행 종료 날짜
    * @example '2023/02/18'
    */
-  @IsDate()
-  endTime: Date;
+  @IsString()
+  endTime: string;
 }

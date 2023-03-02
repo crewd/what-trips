@@ -5,13 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Trip {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
@@ -25,10 +25,10 @@ export class Trip {
   title: string;
 
   @Column()
-  startTime: Date;
+  startTime: string;
 
   @Column()
-  endTime: Date;
+  endTime: string;
 
   @CreateDateColumn()
   createdAt: Date;

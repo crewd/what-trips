@@ -5,13 +5,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Plan {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
@@ -28,7 +28,7 @@ export class Plan {
   day: number;
 
   @Column()
-  startTime: Date;
+  time: string;
 
   @Column()
   content: string;
@@ -36,7 +36,7 @@ export class Plan {
   @Column()
   checked: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   coordinate: string;
 
   @CreateDateColumn()

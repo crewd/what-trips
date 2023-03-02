@@ -54,7 +54,7 @@ export class TripController {
   }
 
   @UseGuards(AuthGuard)
-  @Get(':tripId/plan')
+  @Get(':tripId')
   @ApiBearerAuth()
   @ApiOperation({
     summary: '여행 상세',

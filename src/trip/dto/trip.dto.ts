@@ -9,8 +9,8 @@ export class TripDto {
   title: string;
 
   @Expose()
-  startTime: Date;
+  startTime: string;
 
   @Expose()
-  endTime: Date;
+  endTime: string;
 }

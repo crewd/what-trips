@@ -12,7 +12,7 @@ export class PlanDto {
   content: string;
 
   @Expose()
-  time: Date;
+  time: string;
 
   @Expose()
   checked: boolean;
