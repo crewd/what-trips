@@ -1,5 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { IsDate, IsString } from 'class-validator';
 
 export class UpdateTripDto {
   /**
