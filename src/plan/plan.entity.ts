@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Trip {
+export class Plan {
   @PrimaryColumn()
   id: number;
 
