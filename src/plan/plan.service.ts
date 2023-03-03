@@ -8,6 +8,7 @@ import { plainToInstance } from 'class-transformer';
 import { Trip } from 'src/trip/trip.entity';
 import { Repository } from 'typeorm';
 import { AddPlanDto } from './dto/add-plan.dto';
+import { UpdateCheckedDto } from './dto/checked-change';
 import { PlanDto } from './dto/plan.dto';
 import { Plan } from './plan.entity';
 
@@ -58,6 +59,29 @@ export class PlanService {
     if (addPlanData.coordinate) {
       plan.coordinate = addPlanData.coordinate;
     }
+
+    await this.planRepository.save(plan);
+
+    const planData = plainToInstance(PlanDto, plan);
+
+    return planData;
+  }
+
+  async updateChecked(
+    planId: number,
+    userId: number,
+    checkedData: UpdateCheckedDto,
+  ): Promise<PlanDto> {
+    const plan = await this.planRepository.findOne({ id: planId });
+
+    if (!plan) {
+      throw new NotFoundException();
+    }
+    if (plan.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    plan.checked = checkedData.checked;
 
     await this.planRepository.save(plan);
 
