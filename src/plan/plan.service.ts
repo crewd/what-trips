@@ -89,4 +89,15 @@ export class PlanService {
 
     return planData;
   }
+
+  async deletePlan(planId: number, userId: number) {
+    const plan = await this.planRepository.findOne({ id: planId });
+    if (!plan) {
+      throw new NotFoundException();
+    }
+    if (plan.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+    await this.planRepository.delete({ id: planId });
+  }
 }

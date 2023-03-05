@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -72,5 +73,21 @@ export class PlanController {
     @Body() updateCheckedDto: UpdateCheckedDto,
   ) {
     return this.planService.updateChecked(planId, userId, updateCheckedDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('plan/:planId')
+  @ApiOperation({
+    summary: '일정 삭제',
+    description: '일정 삭제 API',
+  })
+  @ApiBearerAuth()
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
+  @ApiResponse({ status: 404, description: 'NotFoundException' })
+  deleteTrip(
+    @User('userId', ParseIntPipe) userId: number,
+    @Param('planId', ParseIntPipe) planId: number,
+  ) {
+    return this.planService.deletePlan(planId, userId);
   }
 }
