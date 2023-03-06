@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   ParseIntPipe,
   Post,
@@ -37,5 +38,21 @@ export class PlanController {
     @Body() addPlaceDto: AddPlaceDto,
   ) {
     return this.placeService.addPlace(tripId, userId, addPlaceDto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('trip/:tripId/place')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: '장소 목록',
+    description: '장소 목록 API',
+  })
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
+  @ApiResponse({ status: 403, description: 'NotFoundException' })
+  getPlaceList(
+    @Param('tripId', ParseIntPipe) tripId: number,
+    @User('userId', ParseIntPipe) userId: number,
+  ) {
+    return this.placeService.getPlaceList(tripId, userId);
   }
 }

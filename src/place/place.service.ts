@@ -4,6 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
 import { Trip } from 'src/trip/trip.entity';
 import { Repository } from 'typeorm';
 import { AddPlaceDto } from './dto/add-place.dto';
@@ -42,5 +43,21 @@ export class PlaceService {
     place.coordinate = placeData.coordinate;
 
     await this.placeRepository.save(place);
+  }
+
+  async getPlaceList(tripId: number, userId: number): Promise<PlaceDto[]> {
+    const trip = await this.tripRepository.findOne({ id: tripId });
+    if (!trip) {
+      throw new NotFoundException();
+    }
+
+    if (trip.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    const places = await this.placeRepository.find({ tripId: tripId });
+    const placeList = plainToInstance(PlaceDto, places);
+
+    return placeList;
   }
 }
