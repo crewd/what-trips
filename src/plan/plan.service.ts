@@ -38,7 +38,11 @@ export class PlanService {
     return sortedPlan;
   }
 
-  async addPlan(tripId: number, userId: number, addPlanData: AddPlanDto) {
+  async addPlan(
+    tripId: number,
+    userId: number,
+    addPlanData: AddPlanDto,
+  ): Promise<PlanDto> {
     const trip = await this.tripRepository.findOne({ id: tripId });
 
     if (!trip) {
@@ -90,7 +94,7 @@ export class PlanService {
     return planData;
   }
 
-  async deletePlan(planId: number, userId: number) {
+  async deletePlan(planId: number, userId: number): Promise<void> {
     const plan = await this.planRepository.findOne({ id: planId });
     if (!plan) {
       throw new NotFoundException();
