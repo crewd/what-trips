@@ -47,6 +47,7 @@ export class PlaceService {
 
   async getPlaceList(tripId: number, userId: number): Promise<PlaceDto[]> {
     const trip = await this.tripRepository.findOne({ id: tripId });
+
     if (!trip) {
       throw new NotFoundException();
     }
@@ -59,5 +60,19 @@ export class PlaceService {
     const placeList = plainToInstance(PlaceDto, places);
 
     return placeList;
+  }
+
+  async deletePlace(placeId: number, userId: number): Promise<void> {
+    const place = await this.placeRepository.findOne({ id: placeId });
+
+    if (!place) {
+      throw new NotFoundException();
+    }
+
+    if (place.userId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    await this.placeRepository.delete({ id: placeId });
   }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -20,7 +21,7 @@ import { PlaceService } from './place.service';
 
 @ApiTags('Place API')
 @Controller()
-export class PlanController {
+export class PlaceController {
   constructor(private placeService: PlaceService) {}
 
   @UseGuards(AuthGuard)
@@ -54,5 +55,21 @@ export class PlanController {
     @User('userId', ParseIntPipe) userId: number,
   ) {
     return this.placeService.getPlaceList(tripId, userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('place/delete')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: '장소 삭제',
+    description: '장소 삭제 API',
+  })
+  @ApiResponse({ status: 401, description: 'UnauthorizedException' })
+  @ApiResponse({ status: 403, description: 'NotFoundException' })
+  deletePlace(
+    @Param('placeId', ParseIntPipe) placeId: number,
+    @User('userId', ParseIntPipe) userId: number,
+  ) {
+    return this.placeService.deletePlace(placeId, userId);
   }
 }
