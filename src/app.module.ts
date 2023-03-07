@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TripModule } from './trip/trip.module';
 import { PlanModule } from './plan/plan.module';
+import { PlaceModule } from './place/place.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PlanModule } from './plan/plan.module';
     UserModule,
     TripModule,
     PlanModule,
+    PlaceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
