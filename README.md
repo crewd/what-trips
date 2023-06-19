@@ -1,73 +1,51 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 어떤 여행
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<img src="https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white"> <img src="https://img.shields.io/badge/nestjs-E0234E?style=flat&logo=nestjs&logoColor=white"> <img src="https://img.shields.io/badge/TypeOrm-white?style=flat"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178c6?style=flat&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazonaws&logoColor=white">
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🔎 About
 
-## Description
+여행 일정을 관리하는 API입니다.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+회원가입, 로그인 기능과 여행, 일정, 장소를 관리할 수 있습니다.
 
-## Installation
+## API
 
-```bash
-$ npm install
-```
+`http://ec2-43-206-46-14.ap-northeast-1.compute.amazonaws.com:3000/`
 
-## Running the app
+`http://ec2-43-206-46-14.ap-northeast-1.compute.amazonaws.com:3000/api`
 
-```bash
-# development
-$ npm run start
+### User
 
-# watch mode
-$ npm run start:dev
+- POST `/user/login` 로그인
 
-# production mode
-$ npm run start:prod
-```
+- POST `/user/signup` 회원가입
 
-## Test
+### Trip
 
-```bash
-# unit tests
-$ npm run test
+- GET `/trip/list` 여행 목록 조회
 
-# e2e tests
-$ npm run test:e2e
+- POST `/trip/add` 여행 추가
 
-# test coverage
-$ npm run test:cov
-```
+- GET `/trip/{tripId}` 여행 상세
 
-## Support
+- PATCH `/trip/{tripId}` 여행 수정
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- DELETE `/trip/{tripId}` 여행 삭제
 
-## Stay in touch
+### Plan
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- GET` /trip/{tripId}/plan` 일정 목록 조회
 
-## License
+- POST `/trip/{tripId}/plan` 일정 추가
 
-Nest is [MIT licensed](LICENSE).
+- PATCH `/plan/{planId}` 일정 체크여부 수정
+
+- DELETE `/plan/{planId}` 일정 삭제
+
+### Place
+
+- POST `/trip/{tripId}/place` 장소 추가
+
+- GET `/trip/{tripId}/place` 장소 목록
+
+- DELETE `/place/{placeId}/delete` 장소 삭제

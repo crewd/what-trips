@@ -58,7 +58,7 @@ export class PlaceController {
   }
 
   @UseGuards(AuthGuard)
-  @Delete('place/delete')
+  @Delete('place/:placeId/delete')
   @ApiBearerAuth()
   @ApiOperation({
     summary: '장소 삭제',
