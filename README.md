@@ -8,11 +8,9 @@
 
 회원가입, 로그인 기능과 여행, 일정, 장소를 관리할 수 있습니다.
 
-## API
+## 📄 [API](http://ec2-43-206-46-14.ap-northeast-1.compute.amazonaws.com:3000/)
 
-`http://ec2-43-206-46-14.ap-northeast-1.compute.amazonaws.com:3000/`
-
-`http://ec2-43-206-46-14.ap-northeast-1.compute.amazonaws.com:3000/api`
+[API Swagger](http://ec2-43-206-46-14.ap-northeast-1.compute.amazonaws.com:3000/api)
 
 ### User
 
